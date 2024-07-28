@@ -5,6 +5,7 @@ import ColorChanger from "./components/ColorChanger";
 import DisplayWithExtraProp from "./components/HOC";
 import HOCRef from "./components/HOCRef";
 import HelloWithLogging from "./components/SimpleHOC";
+import MyComponentLifecycle from "./components/Lifecycle";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <DisplayWithExtraProp />
       <HOCRef />
       <HelloWithLogging name="Sara" />
+      <MyComponentLifecycle />
     </div>
   );
 }
