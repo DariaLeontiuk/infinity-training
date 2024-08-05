@@ -1,7 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState }from 'react';
 
-const WeatherInput = ({ city, setCity, getWeatherByCity }) => {
+const WeatherInput = ({ onCitySearch }) => {
+  const [city, setCity] = useState('');
+
+  const handleSearch = () => {
+    if(city.trim() !== ''){
+      onCitySearch(city);
+    }
+  }
   return (
     <div>
       <input
@@ -10,15 +16,9 @@ const WeatherInput = ({ city, setCity, getWeatherByCity }) => {
         onChange={(e) => setCity(e.target.value)}
         placeholder="Enter city"
       />
-      <button onClick={getWeatherByCity}>Get Weather</button>
+      <button onClick={handleSearch}>Get Weather</button>
     </div>
   );
-};
-
-WeatherInput.propTypes = {
-  city: PropTypes.string.isRequired,
-  setCity: PropTypes.func.isRequired,
-  getWeatherByCity: PropTypes.func.isRequired
 };
 
 export default WeatherInput;

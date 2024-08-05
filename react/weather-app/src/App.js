@@ -1,67 +1,22 @@
-import React, { useState, useEffect, Profiler } from 'react';
-import WeatherInput from './components/WeatherInput';
-import WeatherInfo from './components/WeatherInfo';
-import { getWeatherByCity, getWeatherByLocation } from './services/weatherService';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import CityPage from './pages/CityPage';
+import ContactPage from './pages/ContactPage';
+import AboutPage from './pages/AboutPage';
+import Header from './components/Header';
 
 const App = () => {
-  const [city, setCity] = useState('');
-  const [weather, setWeather] = useState(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          getWeatherByLocation(latitude, longitude, setWeather, setError);
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-          setError('Unable to retrieve your location');
-        }
-      );
-    } else {
-      setError('Geolocation is not supported by this browser');
-    }
-  }, []);
-
-  const handleGetWeatherByCity = () => {
-    getWeatherByCity(city, setWeather, setError);
-  };
-
-  const onRenderCallback = (
-    id, 
-    phase,
-    actualDuration,
-    baseDuration, 
-    startTime, 
-    commitTime, 
-    interactions
-  ) => {
-    console.log(`Profiling ${id}: ${phase}`);
-    console.log(`Actual duration: ${actualDuration}`);
-    console.log(`Base duration: ${baseDuration}`);
-    console.log(`Start time: ${startTime}`);
-    console.log(`Commit time: ${commitTime}`);
-    console.log('Interactions:', interactions);
-  };
-
   return (
-    <div className="App">
-      <Profiler id="WeatherApp" onRender={onRenderCallback}>
-        <h1>Weather App</h1>
-        <WeatherInput
-          city={city}
-          setCity={setCity}
-          getWeatherByCity
-={handleGetWeatherByCity}
-        />
-        {error && <p>{error}</p>}
-        {weather && (
-          <WeatherInfo weather={weather} />
-        )}
-      </Profiler>
-    </div>
+    <Router>
+      <Header onCitySearch={(city) => { window.location.href = `/city/${city}`; }} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/city/:cityName" element={<CityPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+    </Router>
   );
 };
 
