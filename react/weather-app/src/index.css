@@ -1,14 +1,5 @@
 body {
   margin: 0;
   background-color: #3a4d5f;
-  -webkit-text-size-adjust: 100%;
 }
 
-*::-moz-focus-outer {
-  outline: none;
-}
-
-* {
-  transition: all 0.3s ease;
-  -webkit-font-smoothing: antialiased;
-}

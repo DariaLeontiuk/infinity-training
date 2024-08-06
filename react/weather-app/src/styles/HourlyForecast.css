@@ -1,0 +1,13 @@
+.hourly-forecast {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .hourly-item {
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    flex: 1;
+    margin: 10px;
+  }

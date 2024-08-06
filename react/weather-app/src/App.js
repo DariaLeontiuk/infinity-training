@@ -4,7 +4,7 @@ import HomePage from './pages/HomePage';
 import CityPage from './pages/CityPage';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
-import Header from './components/Header';
+import Header from './Header';
 
 const App = () => {
   return (
