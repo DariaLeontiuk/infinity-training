@@ -7,6 +7,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    position: absolute;
+    z-index: 2;
+    background-color: #3a4d5f;
+    height: 5vw;
+    width: 100vw;
+    box-sizing: border-box;
   }
   
   .header-title {

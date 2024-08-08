@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './styles/Header.css';
+import { useNavigate } from 'react-router-dom';
+import '../styles/Header.css';
+//import styled from 'styled-components';
+
+// const HeaderTitleStyle = styled.span`
+//     font-family: "Grey Qo", cursive;
+//     font-style: normal;
+//     font-size: 80px;
+//     font-weight: bold;
+//     color: #fff4f4;
+// `
 
 const Header = ({ onCitySearch }) => {
+  const navigate = useNavigate();
   const [city, setCity] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleSearch = (event) => {
     event.preventDefault();
     if (city.trim() !== '') {
-      onCitySearch(city);
+      navigate(`/city/${city}`);
     }
   };
 
