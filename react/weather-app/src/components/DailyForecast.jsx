@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import WeatherIcon from "./WeatherIcon";
 
 const DailyForecastContainer = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ const DayContainer = styled.div`
 `;
 
 const DailyForecast = ({ dailyData, onDayClick, selectedDay }) => {
+  console.log(dailyData);
   return (
     <DailyForecastContainer>
       {dailyData.map((day) => (
@@ -29,8 +31,10 @@ const DailyForecast = ({ dailyData, onDayClick, selectedDay }) => {
           $isSelected={selectedDay === day.date}
           onClick={() => onDayClick(day.date)}
         >
+          <p>{day.weekday}</p>
           <p>{day.date}</p>
           <p>{day.temp}°C</p>
+          <WeatherIcon icon={day.icon} size="100px" />
         </DayContainer>
       ))}
     </DailyForecastContainer>

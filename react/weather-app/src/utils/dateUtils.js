@@ -2,8 +2,17 @@ export const getDayFromDateTime = (dateTime) => {
   return dateTime.split(" ")[0];
 };
 
+export const getWeekdayFromDateTime = (dateTime) => {
+  const date = new Date(dateTime);
+  return date.toLocaleDateString('en-US',
+    {
+      weekday:'short'
+    }
+  )
+}
+
 export const getTimeFromDateTime = (dateTime) => {
-  return dateTime.split(" ")[1].slice(0, 8);
+  return dateTime.split(" ")[1].slice(0, 5);
 };
 
 export const filterWeatherByDay = (weatherList, selectedDay) => {
@@ -23,7 +32,8 @@ export const getTemperatureForSelectedTime = (
     const hourData = dayData.find((item) => item.dt_txt.includes(selectedHour));
     return hourData ? hourData : dayData[0];
   } else {
-    return dayData[0];
+    const middayData = dayData.find((item) => item.dt_txt.includes("12:00"));
+    return middayData ? middayData: dayData[0];
   }
 };
 
@@ -40,4 +50,14 @@ export const getDailyData = (list) => {
   });
 
   return dailyData.slice(0, 5);
+};
+
+export const getMiddayTemperatureData = (list, date) => {
+  return (
+    list.find(
+      (item) =>
+        getDayFromDateTime(item.dt_txt) === date &&
+        getTimeFromDateTime(item.dt_txt) === "12:00"
+    ) || list.find((item) => getDayFromDateTime(item.dt_txt) === date)
+  );
 };

@@ -4,9 +4,11 @@ import { useWeather } from "../redux/useWeather";
 import { getBackgroundImageByWeatherId } from "../utils/backgroundUtils";
 import {
   getDayFromDateTime,
+  getWeekdayFromDateTime,
   getTemperatureForSelectedTime,
   getTimeFromDateTime,
   getDailyData,
+  getMiddayTemperatureData,
 } from "../utils/dateUtils";
 import styled from "styled-components";
 import MainContainer from "../components/MainContainer";
@@ -42,7 +44,7 @@ const CityPage = () => {
   }, [weather]);
 
   useEffect(() => {
-    if (selectedDay) {
+    if (selectedDay && weather) {
       const dayData = weather.list.filter(
         (item) => getDayFromDateTime(item.dt_txt) === selectedDay
       );
@@ -50,7 +52,7 @@ const CityPage = () => {
         ? dayData.find(
             (item) => getTimeFromDateTime(item.dt_txt) === selectedHour
           )?.weather[0].id
-        : dayData[0]?.weather[0].id;
+        : getMiddayTemperatureData(dayData, selectedDay)?.weather[0].id;
 
       if (selectedWeatherId) {
         setBackgroundImage(getBackgroundImageByWeatherId(selectedWeatherId));
@@ -76,34 +78,34 @@ const CityPage = () => {
           <>
             <CityInfo city={weather.city.name} country={weather.country} />
             <TemperatureInfo
-              temp={
+              temp={Math.round(
                 getTemperatureForSelectedTime(
                   weather,
                   selectedDay,
                   selectedHour
                 )?.main.temp
-              }
-              feels_like={
+              )}
+              feels_like={Math.round(
                 getTemperatureForSelectedTime(
                   weather,
                   selectedDay,
                   selectedHour
                 )?.main.feels_like
-              }
-              temp_min={
+              )}
+              temp_min={Math.round(
                 getTemperatureForSelectedTime(
                   weather,
                   selectedDay,
                   selectedHour
                 )?.main.temp_min
-              }
-              temp_max={
+              )}
+              temp_max={Math.round(
                 getTemperatureForSelectedTime(
                   weather,
                   selectedDay,
                   selectedHour
                 )?.main.temp_max
-              }
+              )}
               pressure={
                 getTemperatureForSelectedTime(
                   weather,
@@ -134,10 +136,18 @@ const CityPage = () => {
               }
             />
             <DailyForecast
-              dailyData={getDailyData(weather.list).map((item) => ({
-                date: getDayFromDateTime(item.dt_txt),
-                temp: item.main.temp,
-              }))}
+              dailyData={getDailyData(weather.list).map((item) => {
+                const middayData = getMiddayTemperatureData(
+                  weather.list,
+                  getDayFromDateTime(item.dt_txt)
+                );
+                return {
+                  weekday: getWeekdayFromDateTime(middayData.dt_txt),
+                  date: getDayFromDateTime(middayData.dt_txt),
+                  temp: Math.round(middayData.main.temp),
+                  icon: middayData.weather[0].icon,
+                };
+              })}
               onDayClick={handleDayClick}
               selectedDay={selectedDay}
             />
@@ -148,7 +158,8 @@ const CityPage = () => {
                 )
                 .map((item) => ({
                   time: getTimeFromDateTime(item.dt_txt),
-                  temp: item.main.temp,
+                  temp: Math.round(item.main.temp),
+                  icon: item.weather[0].icon,
                 }))}
               onHourClick={handleHourClick}
               selectedHour={selectedHour}
@@ -160,8 +171,20 @@ const CityPage = () => {
               sunset={new Date(weather.city.sunset * 1000).toLocaleTimeString()}
             />
             <WindInfo
-              windSpeed={weather.list[0].wind.speed}
-              windDirection={weather.list[0].wind.deg}
+              windSpeed={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.wind.speed
+              }
+              windDirection={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.wind.deg
+              }
             />
           </>
         )}

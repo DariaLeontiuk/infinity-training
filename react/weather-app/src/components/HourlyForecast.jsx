@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import WeatherIcon from "./WeatherIcon";
 
 const HourlyForecastContainer = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ const HourContainer = styled.div`
 `;
 
 const HourlyForecast = ({ hourlyData, onHourClick, selectedHour }) => {
+  console.log(hourlyData);
   return (
     <HourlyForecastContainer>
       {hourlyData.map((hour) => (
@@ -31,6 +33,7 @@ const HourlyForecast = ({ hourlyData, onHourClick, selectedHour }) => {
         >
           <p>{hour.time}</p>
           <p>{hour.temp}°C</p>
+          <WeatherIcon icon={hour.icon} size="100px"/>
         </HourContainer>
       ))}
     </HourlyForecastContainer>

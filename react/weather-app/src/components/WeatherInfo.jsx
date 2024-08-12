@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import WeatherIcon from "./WeatherIcon";
 
 const InfoContainer = styled.div`
   margin: 20px 0;
@@ -15,8 +16,9 @@ const WeatherInfo = ({ weather }) => {
       <h2>
         {weather.city.name}, {weather.city.country}
       </h2>
-      <p>Temperature: {weather.list[0].main.temp}°C</p>
-      <p>Feels like: {weather.list[0].main.feels_like}°C</p>
+      <p>Temperature: {Math.round(weather.list[0].main.temp)}°C</p>
+      <p>Feels like: {Math.round(weather.list[0].main.feels_like)}°C</p>
+      <WeatherIcon icon={weather.list[0].weather[0].icon} size="100px" />
     </InfoContainer>
   );
 };

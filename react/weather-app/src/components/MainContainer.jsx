@@ -15,7 +15,7 @@ gap: 30px;
   backdrop-filter: blur(10px);
   color: white;
   text-align: center;
-  top: 20vh;
+  top: 12vh;
 `;
 
 export default MainContainer;
