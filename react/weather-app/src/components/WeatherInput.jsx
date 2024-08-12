@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const InputContainer = styled.div`
   display: flex;
@@ -25,11 +25,11 @@ const Button = styled.button`
 `;
 
 const WeatherInput = ({ onCitySearch }) => {
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (city.trim() !== '') {
+    if (city.trim() !== "") {
       onCitySearch(city);
     }
   };

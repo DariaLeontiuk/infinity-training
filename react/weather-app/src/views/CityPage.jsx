@@ -1,89 +1,168 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchWeatherByCity } from '../redux/weatherSlice';
-import styled from 'styled-components';
-import MainContainer from '../components/MainContainer';
-import CityInfo from '../components/CityInfo';
-import TemperatureInfo from '../components/TemperatureInfo';
-import HourlyForecast from '../components/HourlyForecast';
-import DailyForecast from '../components/DailyForecast';
-import SunInfo from '../components/SunInfo';
-import WindInfo from '../components/WindInfo';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useWeather } from "../redux/useWeather";
+import { getBackgroundImageByWeatherId } from "../utils/backgroundUtils";
+import {
+  getDayFromDateTime,
+  getTemperatureForSelectedTime,
+  getTimeFromDateTime,
+  getDailyData,
+} from "../utils/dateUtils";
+import styled from "styled-components";
+import MainContainer from "../components/MainContainer";
+import CityInfo from "../components/CityInfo";
+import TemperatureInfo from "../components/TemperatureInfo";
+import HourlyForecast from "../components/HourlyForecast";
+import DailyForecast from "../components/DailyForecast";
+import SunInfo from "../components/SunInfo";
+import WindInfo from "../components/WindInfo";
 
 const CityPageContainer = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
+  background-image: url(${(props) => props.$bgimage});
   height: 100vh;
 `;
 
 const CityPage = () => {
   const { cityName } = useParams();
-  const dispatch = useDispatch();
-  const weather = useSelector((state) => state.weather.data);
-  const status = useSelector((state) => state.weather.status);
-  const error = useSelector((state) => state.weather.error);
-  const [backgroundImage, setBackgroundImage] = useState('');
-
-  useEffect(() => {
-    if (cityName) {
-      dispatch(fetchWeatherByCity(cityName));
-    }
-  }, [cityName, dispatch]);
+  const { weather, status, error } = useWeather(cityName);
+  const [bgimage, setBackgroundImage] = useState("");
+  const [selectedHour, setSelectedHour] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(null);
 
   useEffect(() => {
     if (weather && weather.list && weather.list[0] && weather.list[0].weather) {
-      updateBackgroundImage(weather.list[0].weather[0].id);
+      setBackgroundImage(
+        getBackgroundImageByWeatherId(weather.list[0].weather[0].id)
+      );
+      setSelectedDay(getDayFromDateTime(weather.list[0].dt_txt));
     }
   }, [weather]);
 
-  const updateBackgroundImage = (weatherId) => {
-    if (weatherId >= 200 && weatherId < 300) {
-      setBackgroundImage('/assets/thunderstorm.jpg');
-    } else if (weatherId >= 300 && weatherId < 600) {
-      setBackgroundImage('/assets/rain.jpg');
-    } else if (weatherId >= 600 && weatherId < 700) {
-      setBackgroundImage('/assets/snow.jpg');
-    } else if (weatherId >= 700 && weatherId < 800) {
-      setBackgroundImage('/assets/atmosphere.jpg');
-    } else if (weatherId === 800) {
-      setBackgroundImage('/assets/clear.jpg');
-    } else if (weatherId > 800 && weatherId < 900) {
-      setBackgroundImage('/assets/clouds.jpg');
-    } else {
-      setBackgroundImage('/assets/default.jpg');
+  useEffect(() => {
+    if (selectedDay) {
+      const dayData = weather.list.filter(
+        (item) => getDayFromDateTime(item.dt_txt) === selectedDay
+      );
+      const selectedWeatherId = selectedHour
+        ? dayData.find(
+            (item) => getTimeFromDateTime(item.dt_txt) === selectedHour
+          )?.weather[0].id
+        : dayData[0]?.weather[0].id;
+
+      if (selectedWeatherId) {
+        setBackgroundImage(getBackgroundImageByWeatherId(selectedWeatherId));
+      }
     }
+  }, [selectedDay, selectedHour, weather]);
+
+  const handleDayClick = (day) => {
+    setSelectedDay(day);
+    setSelectedHour(null);
+  };
+
+  const handleHourClick = (hour) => {
+    setSelectedHour(hour);
   };
 
   return (
-    <CityPageContainer style={{backgroundImage: `url(${backgroundImage})`}}>
+    <CityPageContainer $bgimage={bgimage}>
       <MainContainer>
-        {status === 'loading' && <p>Loading...</p>}
+        {status === "loading" && <p>Loading...</p>}
         {error && <p>{error}</p>}
         {weather && (
           <>
             <CityInfo city={weather.city.name} country={weather.country} />
             <TemperatureInfo
-              temp={weather.list[0].main.temp}
-              feels_like={weather.list[0].main.feels_like}
-              temp_min={weather.list[0].main.temp_min}
-              temp_max={weather.list[0].main.temp_max}
-              pressure={weather.list[0].main.pressure}
-              visibility={weather.list[0].visibility / 1000}
-              humidity={weather.list[0].main.humidity}
+              temp={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.main.temp
+              }
+              feels_like={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.main.feels_like
+              }
+              temp_min={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.main.temp_min
+              }
+              temp_max={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.main.temp_max
+              }
+              pressure={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.main.pressure
+              }
+              visibility={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.visibility / 1000
+              }
+              humidity={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.main.humidity
+              }
+              description={
+                getTemperatureForSelectedTime(
+                  weather,
+                  selectedDay,
+                  selectedHour
+                )?.weather[0].description
+              }
             />
-            <HourlyForecast hourlyData={weather.list.slice(0, 8).map((item) => ({
-              time: item.dt_txt,
-              temp: item.main.temp,
-            }))} />
-            <DailyForecast dailyData={weather.list.slice(0, 5).map((item) => ({
-              date: item.dt_txt.split(' ')[0],
-              temp: item.main.temp,
-            }))} />
-            <SunInfo sunrise={new Date(weather.city.sunrise * 1000).toLocaleTimeString()} sunset={new Date(weather.city.sunset * 1000).toLocaleTimeString()} />
-            <WindInfo windSpeed={weather.list[0].wind.speed} windDirection={weather.list[0].wind.deg} />
+            <DailyForecast
+              dailyData={getDailyData(weather.list).map((item) => ({
+                date: getDayFromDateTime(item.dt_txt),
+                temp: item.main.temp,
+              }))}
+              onDayClick={handleDayClick}
+              selectedDay={selectedDay}
+            />
+            <HourlyForecast
+              hourlyData={weather.list
+                .filter(
+                  (item) => getDayFromDateTime(item.dt_txt) === selectedDay
+                )
+                .map((item) => ({
+                  time: getTimeFromDateTime(item.dt_txt),
+                  temp: item.main.temp,
+                }))}
+              onHourClick={handleHourClick}
+              selectedHour={selectedHour}
+            />
+            <SunInfo
+              sunrise={new Date(
+                weather.city.sunrise * 1000
+              ).toLocaleTimeString()}
+              sunset={new Date(weather.city.sunset * 1000).toLocaleTimeString()}
+            />
+            <WindInfo
+              windSpeed={weather.list[0].wind.speed}
+              windDirection={weather.list[0].wind.deg}
+            />
           </>
         )}
       </MainContainer>

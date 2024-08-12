@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const InfoContainer = styled.div`
   margin: 20px 0;
@@ -12,7 +12,9 @@ const InfoContainer = styled.div`
 const WeatherInfo = ({ weather }) => {
   return (
     <InfoContainer>
-      <h2>{weather.city.name}, {weather.city.country}</h2>
+      <h2>
+        {weather.city.name}, {weather.city.country}
+      </h2>
       <p>Temperature: {weather.list[0].main.temp}°C</p>
       <p>Feels like: {weather.list[0].main.feels_like}°C</p>
     </InfoContainer>

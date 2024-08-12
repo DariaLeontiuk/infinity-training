@@ -1,10 +1,10 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './views/HomePage';
-import CityPage from './views/CityPage';
-import ContactPage from './views/ContactPage';
-import AboutPage from './views/AboutPage';
-import Header from './components/Header';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./views/HomePage";
+import CityPage from "./views/CityPage";
+import ContactPage from "./views/ContactPage";
+import AboutPage from "./views/AboutPage";
+import Header from "./components/Header";
 
 const App = () => {
   return (

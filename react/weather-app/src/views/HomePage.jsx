@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { fetchWeatherByLocation } from '../redux/weatherSlice';
-import WeatherInfo from '../components/WeatherInfo';
-import WeatherInput from '../components/WeatherInput';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { fetchWeatherByLocation } from "../redux/weatherSlice";
+import WeatherInfo from "../components/WeatherInfo";
+import WeatherInput from "../components/WeatherInput";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  position: relative;
+  top: 30vh;
 `;
 
 const SeeMoreButton = styled.button`
@@ -39,12 +41,18 @@ const HomePage = () => {
           dispatch(fetchWeatherByLocation({ latitude, longitude }));
         },
         (error) => {
-          console.error('Error getting location:', error);
-          dispatch({ type: 'weather/fetchWeatherByLocation/rejected', error: 'Unable to retrieve your location' });
+          console.error("Error getting location:", error);
+          dispatch({
+            type: "weather/fetchWeatherByLocation/rejected",
+            error: "Unable to retrieve your location",
+          });
         }
       );
     } else {
-      dispatch({ type: 'weather/fetchWeatherByLocation/rejected', error: 'Geolocation is not supported by this browser' });
+      dispatch({
+        type: "weather/fetchWeatherByLocation/rejected",
+        error: "Geolocation is not supported by this browser",
+      });
     }
   }, [dispatch]);
 
@@ -59,7 +67,7 @@ const HomePage = () => {
   return (
     <Container>
       <WeatherInput onCitySearch={handleCitySearch} />
-      {status === 'loading' && <p>Loading...</p>}
+      {status === "loading" && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {weather && (
         <>
