@@ -7,6 +7,7 @@ const SunInfoContainer = styled.div`
   margin-bottom: 20px;
   grid-column: 2 / 3;
   grid-row: 11 / 13;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 const SunInfo = ({ sunrise, sunset }) => {

@@ -7,6 +7,7 @@ const WindInfoContainer = styled.div`
   margin-bottom: 20px;
   grid-column: 3 / 4;
   grid-row: 11 / 13;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 const WindInfo = ({ windSpeed, windDirection }) => {

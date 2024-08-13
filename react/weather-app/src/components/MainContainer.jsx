@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 const MainContainer = styled.div`
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-grid-template-rows: repeat(12, auto);
-gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(12, auto);
+  gap: 30px;
   position: relative;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
@@ -15,7 +15,8 @@ gap: 30px;
   backdrop-filter: blur(10px);
   color: white;
   text-align: center;
-  top: 12vh;
+  font-size: 32px;
+  margin-top: 8%
 `;
 
 export default MainContainer;

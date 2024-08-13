@@ -13,7 +13,7 @@ import {
 import styled from "styled-components";
 import MainContainer from "../components/MainContainer";
 import CityInfo from "../components/CityInfo";
-import TemperatureInfo from "../components/TemperatureInfo";
+import TemperatureInfo from "../components/TemperatureInfoComponents/TemperatureInfo";
 import HourlyForecast from "../components/HourlyForecast";
 import DailyForecast from "../components/DailyForecast";
 import SunInfo from "../components/SunInfo";
@@ -25,6 +25,7 @@ const CityPageContainer = styled.div`
   background-repeat: no-repeat;
   background-image: url(${(props) => props.$bgimage});
   height: 100vh;
+  overflow: auto;
 `;
 
 const CityPage = () => {
@@ -39,6 +40,7 @@ const CityPage = () => {
       setBackgroundImage(
         getBackgroundImageByWeatherId(weather.list[0].weather[0].id)
       );
+      console.log(getBackgroundImageByWeatherId(weather.list[0].weather[0].id));
       setSelectedDay(getDayFromDateTime(weather.list[0].dt_txt));
     }
   }, [weather]);
@@ -56,6 +58,7 @@ const CityPage = () => {
 
       if (selectedWeatherId) {
         setBackgroundImage(getBackgroundImageByWeatherId(selectedWeatherId));
+        console.log(getBackgroundImageByWeatherId(selectedWeatherId));
       }
     }
   }, [selectedDay, selectedHour, weather]);
@@ -71,9 +74,9 @@ const CityPage = () => {
 
   return (
     <CityPageContainer $bgimage={bgimage}>
+      {status === "loading" && <p>Loading...</p>}
+      {error && <p>{error}</p>}
       <MainContainer>
-        {status === "loading" && <p>Loading...</p>}
-        {error && <p>{error}</p>}
         {weather && (
           <>
             <CityInfo city={weather.city.name} country={weather.country} />
@@ -134,6 +137,7 @@ const CityPage = () => {
                   selectedHour
                 )?.weather[0].description
               }
+              bgimage={bgimage}
             />
             <DailyForecast
               dailyData={getDailyData(weather.list).map((item) => {
