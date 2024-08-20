@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWeatherByCity } from "./weatherSlice";
+import { fetchWeatherByCity } from "../redux/weatherSlice";
 
 export const useWeather = (cityName) => {
   const dispatch = useDispatch();

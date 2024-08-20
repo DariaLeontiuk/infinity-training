@@ -1,5 +1,9 @@
 body {
   margin: 0;
   background-color: #045161;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
 }
 

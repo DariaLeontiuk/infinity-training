@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import WeatherIcon from "./WeatherIcon";
+import WeatherIcon from "../CityPageComponents/WeatherIcon";
 
 const InfoContainer = styled.div`
   margin: 20px 0;

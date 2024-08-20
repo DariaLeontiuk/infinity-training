@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useWeather } from "../redux/useWeather";
+import { useWeather } from "../hooks/useWeather";
 import { getBackgroundImageByWeatherId } from "../utils/backgroundUtils";
 import {
   getDayFromDateTime,
@@ -11,13 +11,13 @@ import {
   getMiddayTemperatureData,
 } from "../utils/dateUtils";
 import styled from "styled-components";
-import MainContainer from "../components/MainContainer";
-import CityInfo from "../components/CityInfo";
-import TemperatureInfo from "../components/TemperatureInfoComponents/TemperatureInfo";
-import HourlyForecast from "../components/HourlyForecast";
-import DailyForecast from "../components/DailyForecast";
-import SunInfo from "../components/SunInfo";
-import WindInfo from "../components/WindInfo";
+import MainContainer from "../components/CityPageComponents/MainContainer";
+import CityInfo from "../components/CityPageComponents/CityInfo";
+import TemperatureInfo from "../components/CityPageComponents/TemperatureInfoComponents/TemperatureInfo";
+import HourlyForecast from "../components/CityPageComponents/HourlyForecast";
+import DailyForecast from "../components/CityPageComponents/DailyForecast";
+import SunInfo from "../components/CityPageComponents/SunInfo";
+import WindInfo from "../components/CityPageComponents/WindInfo";
 
 const CityPageContainer = styled.div`
   background-size: cover;

@@ -5,7 +5,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const fetchWeatherByCity = createAsyncThunk(
   "weather/fetchWeatherByCity",
-  async (city) => {
+  async (city, {dispatch}) => {
     const geoResponse = await axios.get(
       "https://api.openweathermap.org/geo/1.0/direct",
       {
@@ -23,19 +23,9 @@ export const fetchWeatherByCity = createAsyncThunk(
 
     const { lat, lon, country } = geoResponse.data[0];
 
-    const weatherResponse = await axios.get(
-      "https://api.openweathermap.org/data/2.5/forecast",
-      {
-        params: {
-          lat: lat,
-          lon: lon,
-          units: "metric",
-          appid: API_KEY,
-        },
-      }
-    );
+    const weatherData = await dispatch(fetchWeatherByLocation({latitude: lat, longitude: lon})).unwrap();
 
-    return { ...weatherResponse.data, country };
+    return { ...weatherData, country };
   }
 );
 
