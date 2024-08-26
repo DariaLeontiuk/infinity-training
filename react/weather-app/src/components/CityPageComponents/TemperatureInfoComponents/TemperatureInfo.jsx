@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect} from "react";
 import styled from "styled-components";
 import FeelsLike from "./FeelsLike";
 import Humidity from "./Humidity";
@@ -7,6 +7,8 @@ import Pressure from "./Pressure";
 
 const TempContainer = styled.div`
   padding: 60px;
+  position: relative;
+  z-index: 2;
 `;
 
 const ElemContainer = styled.div`
@@ -21,11 +23,19 @@ const TemperatureInfoContainer = styled.div`
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   grid-column: 1 / 2;
   grid-row: 2 / 13;
-  background-image: url(${(props) => props.$bgimage}),
-    linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: overlay;
+  position: relative;
+  overflow: hidden;
+`;
+
+const BackgroundVideo = styled.video`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.8;
 `;
 
 const TemperatureInfo = ({
@@ -37,27 +47,57 @@ const TemperatureInfo = ({
   visibility,
   humidity,
   description,
-  bgimage,
+  videoSrc,
 }) => {
-  console.log(bgimage);
-  console.log("max", temp_max);
-  console.log("min", temp_min);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.src = videoSrc;
+      videoRef.current.load();
+    }
+  }, [videoSrc]);
+
+  const handleCanPlayThrough = () => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
+      videoRef.current.play();
+    }
+  };
+
+  const handleVideoError = () => {
+    console.error("Error loading video");
+  };
+  
   return (
-    <TemperatureInfoContainer $bgimage={bgimage}>
-      <TempContainer>
-        <h2>{temp}°C</h2>
-        <h3>{description}</h3>
-        <p>
-          Min: {temp_min}°C, Max: {temp_max}°C
-        </p>
-      </TempContainer>
-      <ElemContainer>
-        <FeelsLike feels_like={feels_like} />
-        <Pressure pressure={pressure} />
-        <Visibility visibility={visibility} />
-        <Humidity humidity={humidity} />
-      </ElemContainer>
-    </TemperatureInfoContainer>
+    videoSrc && (
+      <TemperatureInfoContainer>
+        <BackgroundVideo
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          onCanPlayThrough={handleCanPlayThrough}
+          onError={handleVideoError}
+        >
+          <source src={videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </BackgroundVideo>
+        <TempContainer>
+          <h2>{temp}°C</h2>
+          <h3>{description}</h3>
+          <p>
+            Min: {temp_min}°C, Max: {temp_max}°C
+          </p>
+        </TempContainer>
+        <ElemContainer>
+          <FeelsLike feels_like={feels_like} />
+          <Pressure pressure={pressure} />
+          <Visibility visibility={visibility} />
+          <Humidity humidity={humidity} />
+        </ElemContainer>
+      </TemperatureInfoContainer>
+    )
   );
 };
 

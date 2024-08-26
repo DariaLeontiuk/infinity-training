@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useWeather } from "../hooks/useWeather";
 import { getBackgroundImageByWeatherId } from "../utils/backgroundUtils";
+import { getBackgroundVideoByWeatherId } from "../utils/videoUtils";
 import {
   getDayFromDateTime,
   getWeekdayFromDateTime,
@@ -32,6 +33,7 @@ const CityPage = () => {
   const { cityName } = useParams();
   const { weather, status, error } = useWeather(cityName);
   const [bgimage, setBackgroundImage] = useState("");
+  const [videoSrc, setVideoScr] = useState("");
   const [selectedHour, setSelectedHour] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
 
@@ -40,7 +42,9 @@ const CityPage = () => {
       setBackgroundImage(
         getBackgroundImageByWeatherId(weather.list[0].weather[0].id)
       );
-      console.log(getBackgroundImageByWeatherId(weather.list[0].weather[0].id));
+      setVideoScr(
+        getBackgroundVideoByWeatherId(weather.list[0].weather[0].id)
+      )
       setSelectedDay(getDayFromDateTime(weather.list[0].dt_txt));
     }
   }, [weather]);
@@ -58,7 +62,7 @@ const CityPage = () => {
 
       if (selectedWeatherId) {
         setBackgroundImage(getBackgroundImageByWeatherId(selectedWeatherId));
-        console.log(getBackgroundImageByWeatherId(selectedWeatherId));
+        setVideoScr(getBackgroundVideoByWeatherId(selectedWeatherId));
       }
     }
   }, [selectedDay, selectedHour, weather]);
@@ -137,7 +141,7 @@ const CityPage = () => {
                   selectedHour
                 )?.weather[0].description
               }
-              bgimage={bgimage}
+              videoSrc={videoSrc}
             />
             <DailyForecast
               dailyData={getDailyData(weather.list).map((item) => {
