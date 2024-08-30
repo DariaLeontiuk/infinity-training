@@ -63,8 +63,8 @@ const DailyForecast = ({ dailyData, onDayClick, selectedDay }) => {
             onClick={() => onDayClick(day.date)}
           >
             <p>{day.weekday}</p>
-            <p>{day.date}</p>
-            <p>{day.temp}°C</p>
+            <small>{day.date}</small>
+            <p style={{fontSize: "50px", marginBottom: "0"}}>{day.temp}°C</p>
             <WeatherIcon icon={day.icon} size="100px" />
           </DayContainer>
         ))}

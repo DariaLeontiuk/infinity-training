@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { MdOutlineVisibility } from "react-icons/md";
+
+
 
 const VisibilityContainer = styled.div`
     margin-bottom: 20px;
@@ -10,10 +13,15 @@ const VisibilityContainer = styled.div`
     z-index: 2;
 `;
 
+const DataContainer = styled.p `
+  font-size: 50px;
+  margin-top: 30px;
+  font-weight: bold;
+`
 const Visibility = ({ visibility }) => (
   <VisibilityContainer>
-     <p>Visibility:</p>
-     <p>{visibility} km</p>
+     <p><MdOutlineVisibility style={{ marginRight: "15px" }} />Visibility:</p>
+     <DataContainer>{visibility} km</DataContainer>
   </VisibilityContainer>
 );
 

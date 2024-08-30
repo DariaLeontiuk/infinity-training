@@ -38,6 +38,11 @@ const BackgroundVideo = styled.video`
   opacity: 0.8;
 `;
 
+const Temp = styled.h2`
+  font-size: 70px;
+  margin: 0;
+`
+
 const TemperatureInfo = ({
   temp,
   feels_like,
@@ -84,11 +89,11 @@ const TemperatureInfo = ({
           Your browser does not support the video tag.
         </BackgroundVideo>
         <TempContainer>
-          <h2>{temp}°C</h2>
-          <h3>{description}</h3>
-          <p>
+          <Temp>{temp}°C</Temp>
+          <h2>{description}</h2>
+          <small>
             Min: {temp_min}°C, Max: {temp_max}°C
-          </p>
+          </small>
         </TempContainer>
         <ElemContainer>
           <FeelsLike feels_like={feels_like} />

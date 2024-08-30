@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { GiOppression } from "react-icons/gi";
 
 const PressureContainer = styled.div`
     margin-bottom: 20px;
@@ -10,10 +11,16 @@ const PressureContainer = styled.div`
     z-index: 2;
 `;
 
+const DataContainer = styled.p `
+  font-size: 50px;
+  margin-top: 30px;
+  font-weight: bold;
+`
+
 const Pressure = ({ pressure }) => (
   <PressureContainer>
-     <p>Pressure:</p>
-     <p>{pressure} hPa</p>
+     <p><GiOppression style={{ marginRight: "15px" }} />Pressure:</p>
+     <DataContainer>{pressure} hPa</DataContainer>
   </PressureContainer>
 );
 

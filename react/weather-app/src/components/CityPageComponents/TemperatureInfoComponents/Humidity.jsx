@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { WiHumidity } from "react-icons/wi";
 
 const HumidityContainer = styled.div`
     margin-bottom: 20px;
@@ -10,10 +11,16 @@ const HumidityContainer = styled.div`
     z-index: 2; 
 `;
 
+const DataContainer = styled.p `
+  font-size: 50px;
+  margin-top: 30px;
+  font-weight: bold;
+`
+
 const Humidity = ({ humidity }) => (
   <HumidityContainer>
-     <p>Humidity:</p>
-     <p>{humidity}%</p>
+     <p><WiHumidity style={{ marginRight: "15px" }} />Humidity:</p>
+     <DataContainer>{humidity}%</DataContainer>
   </HumidityContainer>
 );
 

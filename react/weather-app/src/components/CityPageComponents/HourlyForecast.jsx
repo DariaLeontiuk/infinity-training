@@ -63,7 +63,7 @@ const HourlyForecast = ({ hourlyData, onHourClick, selectedHour }) => {
             onClick={() => onHourClick(hour.time)}
           >
             <p>{hour.time}</p>
-            <p>{hour.temp}°C</p>
+            <p style={{fontSize: "40px", marginBottom: "0"}}>{hour.temp}°C</p>
             <WeatherIcon icon={hour.icon} size="100px" />
           </HourContainer>
         ))}

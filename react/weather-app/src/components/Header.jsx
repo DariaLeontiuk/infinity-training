@@ -2,15 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../styles/Header.css";
-//import styled from 'styled-components';
-
-// const HeaderTitleStyle = styled.span`
-//     font-family: "Grey Qo", cursive;
-//     font-style: normal;
-//     font-size: 80px;
-//     font-weight: bold;
-//     color: #fff4f4;
-// `
 
 const Header = () => {
   const navigate = useNavigate();
@@ -50,7 +41,7 @@ const Header = () => {
           <button onClick={toggleDropdown}>&#9776;</button>
           <div className={`nav-dropdown-menu ${dropdownOpen ? "show" : ""}`}>
             <Link to="/" onClick={() => setDropdownOpen(false)}>
-              Home
+              My Location
             </Link>
             <Link to="/contact" onClick={() => setDropdownOpen(false)}>
               Contact Us

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWeatherByLocation } from "../redux/weatherSlice"
+import { fetchWeatherByLocation } from "../redux/weatherSlice";
 
 const useWeatherByLocation = () => {
   const dispatch = useDispatch();
@@ -8,7 +8,7 @@ const useWeatherByLocation = () => {
   const error = useSelector((state) => state.weather.error);
   const status = useSelector((state) => state.weather.status);
 
-  useEffect(() => {
+  const loadWeatherByLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -31,7 +31,11 @@ const useWeatherByLocation = () => {
     }
   }, [dispatch]);
 
-  return { weather, error, status };
+  useEffect(() => {
+    loadWeatherByLocation();
+  }, [loadWeatherByLocation]);
+
+  return { weather, error, status, reloadWeatherByLocation: loadWeatherByLocation };
 };
 
 export default useWeatherByLocation;

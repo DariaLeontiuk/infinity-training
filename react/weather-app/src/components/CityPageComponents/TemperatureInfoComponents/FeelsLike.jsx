@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaTemperatureLow } from "react-icons/fa";
 
 const FeelsLikeContainer = styled.div`
     margin-bottom: 20px;
@@ -10,10 +11,16 @@ const FeelsLikeContainer = styled.div`
     z-index: 2; 
 `;
 
+const DataContainer = styled.p `
+  font-size: 50px;
+  margin-top: 30px;
+  font-weight: bold;
+`
+
 const FeelsLike = ({ feels_like }) => (
   <FeelsLikeContainer>
-     <p>Feels like:</p>
-     <p>{feels_like}°C</p>
+     <p><FaTemperatureLow style={{ marginRight: "15px" }} />Feels like:</p>
+     <DataContainer>{feels_like}°C</DataContainer>
   </FeelsLikeContainer>
 );
 
