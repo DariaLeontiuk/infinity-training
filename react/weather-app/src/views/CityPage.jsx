@@ -29,16 +29,20 @@ const CityPageContainer = styled.div`
   overflow: auto;
 `;
 
-const CityPage = () => {
+const CityPage = ({onLoadingComplete}) => {
   const { cityName } = useParams();
   const location = useLocation();
 
-  const { weather: weatherByCity, status: statusByCity, error: errorByCity } = useWeather(cityName);
+  const {
+    weather: weatherByCity,
+    status: statusByCity,
+    error: errorByCity,
+  } = useWeather(cityName);
   const {
     weather: weatherByLocation,
     status: locationStatus,
     error: locationError,
-    reloadWeatherByLocation, 
+    reloadWeatherByLocation,
   } = useWeatherByLocation();
 
   useEffect(() => {
@@ -51,7 +55,6 @@ const CityPage = () => {
   const status = cityName ? statusByCity : locationStatus;
   const error = cityName ? errorByCity : locationError;
 
-
   const {
     bgimage,
     videoSrc,
@@ -62,16 +65,22 @@ const CityPage = () => {
     getTemperatureForSelectedTime,
   } = useCityWeather(weather);
 
+  useEffect(() => {
+    if (status === "succeeded" || error) {
+      onLoadingComplete(); // Сообщаем App, что загрузка завершена
+    }
+  }, [status, error, onLoadingComplete]);
+
+
+  if (error || locationError) {
+    return <p>Error: {error || locationError}</p>;
+  }
+
   return (
     <CityPageContainer $bgimage={bgimage}>
       <Header />
-      {(status === "loading" || locationStatus === "loading") && (
-        <p>Loading...</p>
-      )}
-      {(error || locationError) && <p>{error || locationError}</p>}
-      <MainContainer>
         {weather && (
-          <>
+          <MainContainer>
             <CityInfo city={weather.city.name} country={weather.country} />
             <TemperatureInfo
               temp={Math.round(getTemperatureForSelectedTime()?.main.temp)}
@@ -131,9 +140,8 @@ const CityPage = () => {
               windSpeed={getTemperatureForSelectedTime()?.wind.speed}
               windDirection={getTemperatureForSelectedTime()?.wind.deg}
             />
-          </>
+          </MainContainer>
         )}
-      </MainContainer>
     </CityPageContainer>
   );
 };

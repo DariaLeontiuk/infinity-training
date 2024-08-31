@@ -12,7 +12,7 @@ const HumidityContainer = styled.div`
 `;
 
 const DataContainer = styled.p `
-  font-size: 50px;
+  font-size: 45px;
   margin-top: 30px;
   font-weight: bold;
 `

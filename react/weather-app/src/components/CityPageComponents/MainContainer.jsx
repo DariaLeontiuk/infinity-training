@@ -9,14 +9,27 @@ const MainContainer = styled.div`
   background: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
   padding: 20px;
-  width: 85%;
-  margin: 0 auto;
+  width: 84%;
+  margin: 8%;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   color: white;
   text-align: center;
   font-size: 32px;
-  margin-top: 8%
+
+   @media (max-width: 768px) {
+    grid-template-columns: 1fr; 
+    grid-template-rows: repeat(12, auto);
+    width: 95%; 
+    gap: 20px;
+    font-size: 28px; 
+  }
+
+  @media (max-width: 480px) {
+    font-size: 24px; 
+    padding: 15px; 
+    gap: 15px; 
+  }
 `;
 
 export default MainContainer;

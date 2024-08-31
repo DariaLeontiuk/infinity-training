@@ -115,16 +115,27 @@
   
   .nav-dropdown-menu.show {
     display: block;
+    border: 2px solid #479094;
+    border-radius: 20px;
+    width: 185%;
+    background: #0451611a;
+    font-size: 25px;
+    font-weight: bold;
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
   }
   
   .nav-dropdown-menu a {
     display: block;
     padding: 10px 20px;
     text-decoration: none;
-    color: #333;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px black;
   }
   
   .nav-dropdown-menu a:hover {
-    background-color: #f8f9fa;
-    border-radius: 4px;
+    background-color: #f8f9fa2a;
+    border-radius: 20px;
+    font-size: 30px;
   }

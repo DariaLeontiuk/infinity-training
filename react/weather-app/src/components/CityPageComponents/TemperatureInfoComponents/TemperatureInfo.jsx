@@ -15,6 +15,7 @@ const ElemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  gap: 30px;
 `;
 
 const TemperatureInfoContainer = styled.div`
